@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:operacion/pages/suma.page.dart';
+
+import 'pages/resta.page.dart';
+
 
 class AppHome extends StatefulWidget {
   const AppHome({super.key, required this.title});
@@ -10,10 +14,11 @@ class AppHome extends StatefulWidget {
 }
 
 class _AppHomeState extends State<AppHome> {
-  TextEditingController num1 = TextEditingController();
-  TextEditingController num2 = TextEditingController();
-  double resultado = 0;
 
+  int pagina =0;
+ 
+ 
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,48 +27,43 @@ class _AppHomeState extends State<AppHome> {
         title: Text(widget.title),
       ),
       body: SafeArea(
+
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                TextField(
-                  controller: num1,
-                  decoration: const InputDecoration(
-                    labelText: "ESTA BIEN",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(width: 10, height: 10),
-                TextField(
-                  controller: num2,
-                  decoration: const InputDecoration(
-                    labelText: "TE AMO",
-                    border: OutlineInputBorder(),
-                  ),
-                ),
-                SizedBox(width: 10, height: 10),
-                ElevatedButton(onPressed: sumar, child: Text("Sumar")),
-                Text("Resultado : $resultado"),
+              children: [    
+                (pagina==0)?SumaPage() : RestaPage()
+ 
+
 
               ],
             ),
           ),
         ),
       ),
+   bottomNavigationBar: BottomNavigationBar(
+        currentIndex: pagina,
+        onTap: (index) {
+          setState(() {
+            pagina = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.plus_one_sharp),
+            label: "Suma",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_remove_sharp),
+            label: "Resta",
+          ),          
+        ],
+      ),
+
+   
+   
     );
-  }
-
-  void sumar() {
-  double n1 = double.parse(num1.text);
-  double n2 = double.parse(num2.text);
-   setState(() {     
-     resultado = n1+n2;
- });
-
-  
-  print(resultado);
-  
   }
 }
